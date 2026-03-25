@@ -9,26 +9,36 @@ pipeline {
             }
         }
 
-        stage('Build with Maven') {
+        stage('Build') {
             steps {
-                bat 'mvn clean package'
+                bat '"C:\\Program Files\\apache-maven-3.9.14\\bin\\mvn" clean package'
             }
         }
 
-        stage('Build Docker Image') {
+        stage('Docker Build') {
             steps {
                 bat 'docker build -t java-app .'
             }
         }
 
-        stage('Run Container') {
+        stage('Run') {
             steps {
                 bat '''
-                docker stop java-container || true
-                docker rm java-container || true
+                docker stop java-container || exit 0
+                docker rm java-container || exit 0
                 docker run -d --name java-container java-app
                 '''
             }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
